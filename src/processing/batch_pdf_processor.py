@@ -1,9 +1,11 @@
 import os
 import glob
 from src.extraction.pdf_reader import extract_data_pdf
+from src.integration.reports import create_dir, move_dir, move_error
 from google.sheets_writer import refresh_sheets_csv
 
 def pdf_process(folder):
+    create_dir()
     file_pdf = glob.glob(os.path.join(folder, '*.pdf'))
 
     if not file_pdf:
@@ -17,10 +19,13 @@ def pdf_process(folder):
         try:
             result = extract_data_pdf(file)
             if result:
+                move_dir(file, "pdf")
                 print(f"Processado com sucesso: {file}")
             else:
+                move_error(file)
                 errs.append((file, "Erro desconhecido"))
         except Exception as e:
+                move_error(file)
                 errs.append((file, str(e)))
 
     
@@ -34,4 +39,5 @@ def pdf_process(folder):
             
 
     refresh_sheets_csv()
+    print("Planilha atualizada com sucesso!")
         
