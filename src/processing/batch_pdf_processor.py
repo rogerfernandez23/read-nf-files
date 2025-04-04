@@ -1,5 +1,6 @@
 import os
 import glob
+from src.processing.validator import validator_duplicity
 from src.extraction.pdf_reader import extract_data_pdf
 from src.integration.reports import create_dir, move_dir, move_error
 from google.sheets_writer import refresh_sheets_csv
@@ -21,9 +22,14 @@ def pdf_process(folder):
         try:
             result = extract_data_pdf(file)
             if result:
-                move_dir(file, "pdf")
-                register_log(file_path, file, "Sucesso")
-                print(f"Processado com sucesso: {file}")
+                cnpj, value = result['cnpj'], result['value']
+                if validator_duplicity(cnpj, value):
+                    register_log(file_path, file, "Ignorado", "Nota já existente na planilha")
+                    print(f"Nota já processada: {file}")
+                else:
+                    move_dir(file, "pdf")
+                    register_log(file_path, file, "Sucesso")
+                    print(f"Processado com sucesso: {file}")
             else:
                 move_error(file)
                 register_log(file_path, file, "Erro desconhecido")
