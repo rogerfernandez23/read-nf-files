@@ -1,6 +1,7 @@
 import os
 import glob
 from src.extraction.pdf_reader import extract_data_pdf
+from google.sheets_writer import refresh_sheets_csv
 
 def pdf_process(folder):
     file_pdf = glob.glob(os.path.join(folder, '*.pdf'))
@@ -31,4 +32,6 @@ def pdf_process(folder):
     else:
          print("\nTodos os PDFs foram processados com sucesso!")
             
+
+    refresh_sheets_csv()
         
