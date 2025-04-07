@@ -1,10 +1,11 @@
 import os
 import glob
-from src.processing.validator import validator_duplicity
-from src.extraction.pdf_reader import extract_data_pdf
-from src.integration.reports import create_dir, move_dir, move_error
-from google.sheets_writer import refresh_sheets_csv
-from src.automation.logger import start_logging, register_log, end_logging
+
+from ..extraction.pdf_reader import extract_data_pdf
+from ..integration.reports import create_dir, move_dir, move_error
+from ..google.sheets_writer import refresh_sheets_csv
+from ..automation.logger import start_logging, register_log, end_logging
+from .validator import validator_duplicity
 
 def pdf_process(folder):
     create_dir()
@@ -49,7 +50,7 @@ def pdf_process(folder):
          print("\nTodos os PDFs foram processados com sucesso!")
             
 
-    refresh_sheets_csv()
-    print("Planilha atualizada com sucesso!")
+    # refresh_sheets_csv()
+    # print("Planilha atualizada com sucesso!")
     
     end_logging(file_path)

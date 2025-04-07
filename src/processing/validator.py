@@ -9,4 +9,4 @@ def validator_value(value):
     return isinstance(value, (int, float)) and value > 0
 
 def validator_duplicity(cnpj, value, register):
-    return any(nota["CNPJ"] == cnpj and nota["Value"] == value for nota in register)
+    return any(nota["cnpj"] == cnpj and nota["value"] == value for nota in register)

@@ -2,7 +2,7 @@ import gspread
 import csv
 from google.oauth2.service_account import Credentials
 
-CREDENTIALS = "./credentials/credentials.json"
+CREDENTIALS = "./credentials.json"
 SHEET = "Notas Processadas"
 TAB = "Notas Processadas"
 
@@ -18,7 +18,7 @@ def auth():
     tabs = sheets.worksheet(TAB)
     return tabs
 
-def refresh_sheets_csv(file_csv="registros.csv"):
+def refresh_sheets_csv(file_csv="data/registros.csv"):
     tabs = auth()
 
     with open(file_csv, mode='r') as file:

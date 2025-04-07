@@ -1,7 +1,7 @@
 import pdfplumber
 import re
-from src.processing.validator import validator_cnpj, validator_value, validator_duplicity
-from src.storage.csv_generate import read_file, save_file
+from ..processing.validator import validator_cnpj, validator_value, validator_duplicity
+from ..storage.csv_generate import read_file, save_file
 
 def extract_data_pdf(pdf_path):
     try:

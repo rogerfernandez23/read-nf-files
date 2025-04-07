@@ -1,18 +1,21 @@
 import os
 import tkinter as tk
 from tkinter import scrolledtext, filedialog
-from src.processing.batch_pdf_processor import pdf_process
-from src.processing.batch_xml_processor import xml_process
+from ..processing.batch_pdf_processor import pdf_process
+from ..processing.batch_xml_processor import process_batch
+
 
 LOG_DIR = 'logs'
 
 def select_folder():
-    return filedialog.askdirectory()
+    return filedialog.askdirectory(
+        title = "Selecione o arquivo",
+    )
 
 def process_xml():
     folder = select_folder()
     if folder:
-        xml_process(folder)
+        process_batch(folder)
         refresh_logs()
 
 def process_pdf():
@@ -38,17 +41,22 @@ def refresh_logs():
 Criação da Interface
 '''
 
-top = tk.Tk()
-top.title("Leitor de Notas Fiscais")
-top.geometry("500x400")
+def execute():
 
-tk.button(top, text="Processar XML", command=process_xml, width=20).pack(pady=5)
-tk.button(top, text="Processar PDF", command=process_pdf, width=20).pack(pady=5)
-tk.button(top, text="Abrir Logs", command=open_logs, width=20).pack(pady=5)
+    global text_area
 
-text_area = scrolledtext.ScrolledText(top, width=60, height=15)
-text_area.pack(pady=10)
+    top = tk.Tk()
+    top.title("Leitor de Notas Fiscais")
+    top.geometry("500x400")
 
-refresh_logs()
 
-top.mainloop()
+
+    tk.Button(top, text="Processar XML", command=process_xml, width=20).pack(pady=5)
+    tk.Button(top, text="Processar PDF", command=process_pdf, width=20).pack(pady=5)
+    tk.Button(top, text="Abrir Logs", command=open_logs, width=20).pack(pady=5)
+
+    text_area = scrolledtext.ScrolledText(top, width=60, height=15)
+    text_area.pack(pady=10)
+
+    refresh_logs()
+    top.mainloop()

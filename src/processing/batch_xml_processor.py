@@ -1,15 +1,20 @@
 import os
 import glob
-from src.processing.validator import validator_duplicity
-from src.extraction.xml_reader import extract_from_xml
-from src.integration.reports import create_dir, move_dir, move_error
-from src.google.sheets_writer import refresh_sheets_csv
-from src.automation.logger import start_logging, register_log, end_logging
 
-def process_batch(folder):
+from ..storage.csv_generate import read_file
+from ..extraction.xml_reader import extract_from_xml
+from ..integration.reports import create_dir, move_dir, move_error
+from ..google.sheets_writer import refresh_sheets_csv
+from ..automation.logger import start_logging, register_log, end_logging
+from .validator import validator_duplicity
+
+def process_batch(file):
     create_dir()
     file_path = start_logging("xml")
-    xml_files = glob.glob(os.path.join(folder, '*.xml'))
+    xml_files = [
+    f for f in glob.iglob(os.path.join(file, '*'))
+    if f.lower().endswith('.xml')
+    ]
 
     if not xml_files:
         print(f"Nenhum arquivo XML encontrado na pasta.")
@@ -17,13 +22,14 @@ def process_batch(folder):
     
     print(f"Encontrados {len(xml_files)} arquivos XML. Iniciando processamento...")
 
+    register = read_file()
     errs = []
     for file in xml_files:
         try:
             result = extract_from_xml(file)
             if result:
                 cnpj, value = result['cnpj'], result['value']
-                if validator_duplicity(cnpj, value):
+                if validator_duplicity(cnpj, value, register):
                     register_log(file_path, file, "Ignorado", "Nota já existente na planilha")
                     print(f"Nota já processada: {file}")
                 else:

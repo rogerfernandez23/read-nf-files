@@ -1,0 +1,10 @@
+{
+    "python.analysis.extraPaths": [
+        "./src/processing",
+        "./src/storage",
+        "./src/integration",
+        "./src/extraction",
+        "./src/google",
+        "./src/automation"
+    ]
+}
