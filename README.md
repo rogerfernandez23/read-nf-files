@@ -1,39 +1,59 @@
-🧾 Leitor de Notas Fiscais PJ
-Sistema completo para leitura e processamento automatizado de notas fiscais enviadas por colaboradores Pessoa Jurídica (PJ). Compatível com arquivos XML e PDF, o sistema realiza extração de dados, validação, integração com Google Sheets, e disponibiliza uma interface gráfica intuitiva para facilitar o uso por usuários não técnicos.
+# 🧾 Leitor de Notas Fiscais PJ
 
-🚀 Funcionalidades
+Sistema completo para **leitura e processamento automatizado de notas fiscais** enviadas por colaboradores Pessoa Jurídica (PJ). Compatível com arquivos **XML e PDF**, o sistema realiza extração de dados, **validação**, integração com **Google Sheets**, e conta com uma **interface gráfica intuitiva** para facilitar o uso.
 
-✅ Leitura de notas fiscais XML (modelo NFe)
-✅ Extração de dados essenciais de notas em PDF
-✅ Validação automática de CNPJ e valores
-✅ Verificação de duplicidade contra planilha do Google Sheets
-✅ Atualização automática da planilha "Notas Processadas"
-✅ Movimentação automática de arquivos processados
-✅ Geração e visualização de logs
-✅ Interface gráfica simples e funcional com Tkinter
+---
 
-📁 Estrutura de Pastas
+## 🚀 Funcionalidades
 
-leitor-nf/
-│
-├── data/
-│ ├── registros # Arquivo local de apoio
-|
-├── src/
-│ ├── automation/ # Geração de logs
-│ ├── extraction/ # Leitura e extração dos arquivos XML e PDF
-│ ├── google/ # Integração com Google Sheets
-│ ├── integration/ # Organização de diretórios e movimentação de arquivos
-│ ├── processing/ # Processamento em lote dos arquivos
-│ ├── storage/ # Gerenciamento do arquivo CSV local
-│ └── view/ # Interface gráfica (GUI)
-│
-├── logs/ # Logs gerados por processamento
-├── processados/ # Arquivos XML/PDF organizados após leitura
-│ ├── xml/
-│ ├── pdf/
-│ └── erros/
-│
-├── credentials.json # Configure aqui suas credenciais da conta de serviço do Google
-├── main.py # Ponto de execução do sistema
-└── README.md
+- ✅ Leitura de **Notas Fiscais XML (NFe modelo 55)**
+- ✅ Extração de **dados básicos de PDFs**
+- ✅ Validação de **CNPJ e valores**
+- ✅ Bloqueio de **notas duplicadas**
+- ✅ Registro automático em **Google Sheets**
+- ✅ Organização dos arquivos (XML, PDF, Erros)
+- ✅ Geração e visualização de **logs de processamento**
+- ✅ **Interface gráfica** com botões intuitivos via `Tkinter`
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Python 3.10+**
+- [Tkinter](https://docs.python.org/3/library/tkinter.html) – Interface gráfica
+- [gspread](https://github.com/burnash/gspread) – Integração com Google Sheets
+- [Google API Client](https://developers.google.com/sheets/api) – Autenticação com Google
+- [xml.etree.ElementTree](https://docs.python.org/3/library/xml.etree.elementtree.html) – Leitura de XML
+- [PyMuPDF (fitz)](https://pymupdf.readthedocs.io/en/latest/) – Extração de dados de PDFs
+- [csv](https://docs.python.org/3/library/csv.html) – Manipulação de arquivos CSV
+- [shutil / os / glob](https://docs.python.org/3/library/) – Organização e movimentação de arquivos
+- Estrutura modular baseada em **Clean Code**
+
+---
+
+## ⚙️ **Como Usar**
+
+1. Clone este repositório:
+
+   ```bash
+   git clone https://github.com/rogerfernandez23/read-nf-files.git
+   cd read-nf-files
+   ```
+
+2. Instale as dependências:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Configure suas credenciais do Google Sheets (arquivo `credentials.json`).
+
+4. Inicie a aplicação:
+
+   ```bash
+   python main.py
+   ```
+
+5. Faça upload da NFe em formato .xml ou .pdf e visualize os dados extraídos na planilha do Google Sheets.
+
+\*. Necessário configurar as Credenciais de sua planlha no Google Cloud. Mais sobre: https://medium.com/@matheussouza004/acessando-uma-planilha-do-google-sheets-usando-python-dc243d9803c3
