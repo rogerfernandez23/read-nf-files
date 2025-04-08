@@ -13,26 +13,54 @@ def extract_from_xml(xml_path):
         # Define namespace da NF-e
         ns = {'ns': 'http://www.portalfiscal.inf.br/nfe'}
 
-        cnpj = root.find(".//ns:emit/ns:CNPJ", ns)
-        cnpj = cnpj.text if cnpj is not None else None
+        # Extração dos Dados Necessários
+        datetime_emit = root.find(".//ns:ide/ns:dEmi", ns)
+        datetime_emit = datetime_emit.text if datetime_emit is not None else None
+
+        emit_cnpj = root.find(".//ns:emit/ns:CNPJ", ns)
+        emit_cnpj = emit_cnpj.text if emit_cnpj is not None else None
+
+        emit_name = root.find(".//ns:emit/ns:xNome", ns)
+        emit_name = emit_name.text if emit_name is not None else None
+
+        dest_cnpj = root.find(".//ns:dest/ns:CNPJ", ns)
+        dest_cnpj = dest_cnpj.text if dest_cnpj is not None else None
+
+        dest_name = root.find(".//ns:dest/ns:xNome", ns)
+        dest_name = dest_name.text if dest_name is not None else None
 
         value = root.find(".//ns:total/ns:ICMSTot/ns:vNF", ns)
         value = float(value.text) if value is not None else None
 
-        if not validator_cnpj(cnpj):
-            raise ValueError(f"CNPJ inválido: {cnpj}")
+        # Validações de Campos
+        if not validator_cnpj(emit_cnpj):
+            raise ValueError(f"CNPJ inválido: {emit_cnpj}")
         
         if not validator_value(value):
             raise ValueError(f"Valor total não encontrado no XML: {value}")
 
         register = read_file()
-        if validator_duplicity(cnpj, value, register):
+        if validator_duplicity(emit_cnpj, value, register):
             raise ValueError(f"Nota duplicada!")
         
 
-        save_file(cnpj, value)
+        save_file({
+            "DataHoraEmissao": datetime_emit,
+            "CNPJEmitente": emit_cnpj,
+            "NomeEmitente": emit_name,
+            "CNPJDestinatario": dest_cnpj,
+            "NomeDestinatario": dest_name,
+            "ValorTotal": value
+        })
 
-        return {"cnpj": cnpj, "value": value}
+        return {
+            "DataHoraEmissao": datetime_emit,
+            "CNPJEmitente": emit_cnpj,
+            "NomeEmitente": emit_name,
+            "CNPJDestinatario": dest_cnpj,
+            "NomeDestinatario": dest_name,
+            "ValorTotal": value
+        }
     
     except ET.ParseError as e:
         print(f"XML malformado: {e}")
@@ -49,4 +77,6 @@ if __name__ == "__main__":
     xml_file = 'road/file-nota-fiscal.xml'
     data = extract_from_xml(xml_file)
     if data:
-        print(f"CNPJ: {data['CNPJ']}, Valor Total: {data['Valor Total']}")
+        print("--- Dados extraídos ---")
+        for key, value in data.items():
+            print(f"{key}: {value}")

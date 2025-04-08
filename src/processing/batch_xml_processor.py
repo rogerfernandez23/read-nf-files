@@ -28,8 +28,8 @@ def process_batch(file):
         try:
             result = extract_from_xml(file)
             if result:
-                cnpj, value = result['cnpj'], result['value']
-                if validator_duplicity(cnpj, value, register):
+                emit_cnpj, value = result['CNPJEmitente'], result['ValorTotal']
+                if validator_duplicity(emit_cnpj, value, register):
                     register_log(file_path, file, "Ignorado", "Nota já existente na planilha")
                     print(f"Nota já processada: {file}")
                 else:
@@ -47,6 +47,7 @@ def process_batch(file):
 
     if errs:
         print("\nResumo de erros:")
+        print(errs)
         for arq, err in errs:
             print(f"Erro no arquivo {arq}: {err}")
     else:
