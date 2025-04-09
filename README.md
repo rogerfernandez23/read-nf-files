@@ -1,6 +1,6 @@
 # 🧾 Leitor de Notas Fiscais PJ
 
-Sistema completo para **leitura e processamento automatizado de notas fiscais** enviadas por colaboradores Pessoa Jurídica (PJ). Compatível com arquivos em extensão **XML e PDF**. Essa aplicação realiza a extração de dados, **validação**, integração com **Google Sheets**, e uma **interface gráfica intuitiva** para facilitar o uso.
+Um Script completo para leitura, extração e processamento de notas fiscais enviadas por colaboradores PJ. Compatível com arquivos em extensão **.xml** e **.pdf**. Essa aplicação extrai os dados, valida informações cruciais e junto a integração com o Google Sheets, insere em planilha para armazenamento e tratativas. Além de ser construído com uma interface gráfica para facilitar o uso dos demais colaboradores com ou sem conhecimento técnico.
 
 ---
 
