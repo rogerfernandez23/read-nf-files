@@ -46,14 +46,15 @@ def execute():
     global text_area
 
     top = tk.Tk()
-    top.title("Leitor de Notas Fiscais")
+    top.title("🔍 Leitor de Notas Fiscais - PJ")
     top.geometry("500x400")
 
+    button_frame = tk.Frame(top)
+    button_frame.pack(pady=10)
 
-
-    tk.Button(top, text="Processar XML", command=process_xml, width=20).pack(pady=5)
-    tk.Button(top, text="Processar PDF", command=process_pdf, width=20).pack(pady=5)
-    tk.Button(top, text="Abrir Logs", command=open_logs, width=20).pack(pady=5)
+    tk.Button(button_frame, text="Processar XML", command=process_xml, width=20).grid(row=0, column=0, padx=5, pady=2)
+    tk.Button(button_frame, text="Processar PDF", command=process_pdf, width=20).grid(row=1, column=0, padx=5, pady=2)
+    tk.Button(button_frame, text="Abrir Logs", command=open_logs, width=20).grid(row=2, column=0, padx=5, pady=2)
 
     text_area = scrolledtext.ScrolledText(top, width=60, height=15)
     text_area.pack(pady=10)

@@ -9,16 +9,16 @@ def validator_value(value):
     return isinstance(value, (int, float)) and value > 0
 
 def validator_duplicity(emit_cnpj, value, register):
-    try:
-        value = float(value)
-        for row in register:
-            if (
-                row.get("emit_cnpj") == emit_cnpj and 
-                float(row.get("value", -1)) == value
-            ):
-                return True
-    except (ValueError, TypeError):
-        pass
-    return False
+    for row in register:
+        cnpj = row.get("Emitente CNPJ", "")
+        val = row.get("Valor Total", "").replace(",", "").replace(".", "")
 
-    # return any(nota["cnpj"] == cnpj and nota["value"] == value for nota in register)
+        try:
+            val_float = float(val)
+        except ValueError:
+            continue
+        
+        if cnpj == emit_cnpj and abs(val_float - value) < 0.01:
+            return True
+        
+    return False

@@ -1,6 +1,7 @@
 import os
 import glob
 
+from ..storage.csv_generate import read_file
 from ..extraction.pdf_reader import extract_data_pdf
 from ..integration.reports import create_dir, move_dir, move_error
 from ..google.sheets_writer import refresh_sheets_csv
@@ -18,13 +19,14 @@ def pdf_process(folder):
     
     print(f"Encontrados {len(file_pdf)} arquivos PDF. Iniciando processamento...")
 
+    register = read_file()
     errs = []
     for file in file_pdf:
         try:
             result = extract_data_pdf(file)
             if result:
-                cnpj, value = result['cnpj'], result['value']
-                if validator_duplicity(cnpj, value):
+                cnpj, value = result['CNPJEmitente'], result['ValorTotal']
+                if validator_duplicity(cnpj, value, register):
                     register_log(file_path, file, "Ignorado", "Nota já existente na planilha")
                     print(f"Nota já processada: {file}")
                 else:
@@ -50,7 +52,7 @@ def pdf_process(folder):
          print("\nTodos os PDFs foram processados com sucesso!")
             
 
-    # refresh_sheets_csv()
-    # print("Planilha atualizada com sucesso!")
+    refresh_sheets_csv()
+    print("Planilha atualizada com sucesso!")
     
     end_logging(file_path)

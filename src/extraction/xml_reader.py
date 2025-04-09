@@ -53,6 +53,7 @@ def extract_from_xml(xml_path):
             "ValorTotal": value
         })
 
+
         return {
             "DataHoraEmissao": datetime_emit,
             "CNPJEmitente": emit_cnpj,
