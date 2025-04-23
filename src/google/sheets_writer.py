@@ -10,7 +10,7 @@ SCOPES = [
     'https://www.googleapis.com/auth/drive'
 ]
 
-def auth(tab_name="Notas Processadas"):
+def auth(tab_name="Logs"):
     creds = Credentials.from_service_account_file(CREDENTIALS, scopes=SCOPES)
     client = gspread.authorize(creds)
     sheets = client.open(SHEET)

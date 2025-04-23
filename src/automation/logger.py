@@ -67,19 +67,26 @@ def register_detailed(path_log, file, success, emit_cnpj=None, emit_name=None, d
     
     with open(path_log, "a", encoding="utf-8") as f:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        try:
+            value_float = float(str(value).replace('.', '').replace(',', '.'))
+        except Exception:
+            value_float = 0.0
+        formated_value = f"{value_float:.2f}".replace('.', ',')
+
         if success:
             f.write(
                 f"{timestamp} - SUCESSO - {file} | Emissão: {emission_date} | "
                 f"Emitente: {emit_name} ({emit_cnpj}) | "
                 f"Recebedor: {dest_name} ({dest_cnpj}) | "
-                f"Valor: R$ {value:.2f}\n"
+                f"Valor: R$ {formated_value}\n"
             )
         else:
             f.write(
                 f"{timestamp} - ERRO - {file} | {error_msg} | Emissão: {emission_date} | "
                 f"Emitente: {emit_name or 'Desconhecido'} ({emit_cnpj or '---'}) | "
                 f"Recebedor: {dest_name or 'Desconhecido'} ({dest_cnpj or '---'}) | "
-                f"Valor: R$ {value or 0.0:.2f}\n"
+                f"Valor: R$ {formated_value}\n"
             )
 
 def register_log(path_log, file, status, message=""):

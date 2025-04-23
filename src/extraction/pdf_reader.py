@@ -20,8 +20,8 @@ def extract_data_pdf(pdf_path):
         if not validator_cnpj(data["emit_cnpj"]) or not validator_cnpj(data["dest_cnpj"]):
             raise ValueError("CNPJ inválido!")
             
-        if not validator_value(data["value"]):
-            raise ValueError("Valor inválido!")
+        # if not validator_value(data["value"]):
+        #     raise ValueError("Valor inválido!")
             
         registers = read_file()
         if validator_duplicity(data["emit_cnpj"], data["value"], registers):

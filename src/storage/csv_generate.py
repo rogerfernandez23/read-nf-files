@@ -8,7 +8,7 @@ def generate_file(road):
             writer = csv.writer(file)
             writer.writerow(['cnpj', 'value'])
 
-def save_file(emit_cnpj, emit_name, dest_cnpj, dest_name, value, datetime_):
+def save_file(emit_cnpj, emit_name, dest_cnpj, dest_name, value, datetime):
     file_exists = os.path.isfile('data/registros.csv')
 
     with open('data/registros.csv', mode='a', newline='', encoding='utf-8') as file:
@@ -25,12 +25,12 @@ def save_file(emit_cnpj, emit_name, dest_cnpj, dest_name, value, datetime_):
                 ])
 
         writer.writerow([
-                datetime_,
+                datetime,
                 emit_cnpj,
                 emit_name,
                 dest_cnpj,
                 dest_name,
-                f"{value:.2f}".replace(".", ",") # Converte em BRL R$
+                value,
             ])
 
 def read_file(road="data/registros.csv"):

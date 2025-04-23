@@ -5,7 +5,7 @@ def extract_match(pattern, text, group=1):
     return match.group(group) if match else None
 
 def parse_nfse_text(text):
-    datetime_match = re.search(r"\d{2}/\d{2}/\d{4}\s+\d{2}:\d{2}", text)
+    datetime_match = re.search(r"\d{2}/\d{2}/\d{4}\s*\d{2}:\d{2}:\d{2}", text)
     datetime = datetime_match.group() if datetime_match else None
 
     emit_cnpj_match = re.search(r"Emitente.*?(\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2})", text, re.DOTALL | re.IGNORECASE)
@@ -18,9 +18,7 @@ def parse_nfse_text(text):
     dest_cnpj = re.sub(r"\D", "", dest_cnpj_match.group(1)) if dest_cnpj_match else None
     dest_name = dest_name_match.group(1).strip() if dest_name_match else None
 
-    # value_match = (r"(?i)valor\s*(?:total|líquido)?.*?(\d{1,3}(?:\.\d{3})*,\d{2})", text)
-    value_text = extract_match(r"valor\s*(?:total|líquido)?.*?(\d{1,3}(?:\.\d{3})*,\d{2})", text)
-    value = float(value_text.replace(".", "").replace(",", ".")) if value_text else None
+    value = extract_match(r"valor\s*(?:total|líquido)?.*?(\d{1,3}(?:\.\d{3})*,\d{2})", text)
 
     return {
         "datetime": datetime,

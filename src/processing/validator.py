@@ -6,19 +6,15 @@ def validator_cnpj(emit_cnpj):
     return False
 
 def validator_value(value):
-    return isinstance(value, (int, float)) and value > 0
+    print(value)
+    return isinstance(value, (int)) and value > 0
 
 def validator_duplicity(emit_cnpj, value, register):
     for row in register:
         cnpj = row.get("Emitente CNPJ", "")
-        val = row.get("Valor Total", "").replace(",", "").replace(".", "")
-
-        try:
-            val_float = float(val)
-        except ValueError:
-            continue
+        val = row.get("Valor Total", "")
         
-        if cnpj == emit_cnpj and abs(val_float - value) < 0.01:
+        if cnpj == emit_cnpj and abs(val - value) < 0.01:
             return True
-        
+         
     return False
