@@ -21,7 +21,7 @@ def start_logging(type):
 
 def register_sheets(file, status, emit_cnpj, emit_name, dest_cnpj, dest_name, value, emission_date, error_msg=""):
     try:
-        sheet = auth("Registros")
+        sheet = auth("REGISTROS")
 
         sheet.append_row([
             file,
